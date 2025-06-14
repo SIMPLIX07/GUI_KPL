@@ -38,3 +38,4 @@ C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\ref
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\index.pdb
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\index.genruntimeconfig.cache
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\ref\index.dll
+C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\index.sourcelink.json
