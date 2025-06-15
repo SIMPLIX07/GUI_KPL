@@ -16,6 +16,7 @@ namespace index
         {
             if (disposing && (components != null))
             {
+                // Pastikan semua komponen dibersihkan dengan benar
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -24,19 +25,18 @@ namespace index
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Metode yang dibutuhkan untuk desain Form - jangan ubah lewat code editor langsung.
+        /// Inisialisasi komponen UI pada Form1.
         /// </summary>
         private void InitializeComponent()
         {
+            // Deklarasi komponen
             label1 = new Label();
             textBox1 = new TextBox();
             button1 = new Button();
 
-            SuspendLayout();
+            SuspendLayout(); // Menunda layout untuk meningkatkan performa saat setup
 
-            // 
-            // label1
-            // 
+            // Setup Label
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.DarkSlateBlue;
@@ -52,18 +52,14 @@ namespace index
                 "5. Login Admin\n\n" +
                 "Masukkan Pilihan (1-5):";
 
-            // 
-            // textBox1
-            // 
+            // Setup TextBox untuk input user
             textBox1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             textBox1.Location = new Point(305, 210);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(190, 25);
             textBox1.TabIndex = 1;
 
-            // 
-            // button1
-            // 
+            // Setup Button
             button1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             button1.BackColor = Color.MediumSlateBlue;
             button1.ForeColor = Color.White;
@@ -74,11 +70,9 @@ namespace index
             button1.TabIndex = 2;
             button1.Text = "Pilih";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            button1.Click += button1_Click; // Menghubungkan ke event handler
 
-            // 
-            // Form1
-            // 
+            // Setup Form
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
@@ -90,14 +84,14 @@ namespace index
             Text = "Menu Awal";
             StartPosition = FormStartPosition.CenterScreen;
             ResumeLayout(false);
-            PerformLayout();
+            PerformLayout(); // Aktifkan kembali layout setelah semua kontrol ditambahkan
         }
-
 
         #endregion
 
-        private Label label1;
-        private TextBox textBox1;
-        private Button button1;
+        // Deklarasi komponen UI
+        private Label label1;      // Menampilkan daftar pilihan menu
+        private TextBox textBox1;  // Input pilihan user
+        private Button button1;    // Tombol untuk mengonfirmasi pilihan
     }
 }
