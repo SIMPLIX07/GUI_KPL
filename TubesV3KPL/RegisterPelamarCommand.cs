@@ -5,8 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using TubesV3;
 
+/// <summary>
+/// Command untuk menangani proses registrasi pelamar baru ke dalam sistem.
+/// </summary>
+/// <remarks>
+/// Implementasi dari ICommand yang bertanggung jawab untuk:
+/// 1. Memvalidasi username unik
+/// 2. Mengumpulkan data pelamar
+/// 3. Menyimpan data ke database
+/// </remarks>
 public class RegisterPelamarCommand : ICommand
 {
+    /// <summary>
+    /// Menjalankan alur registrasi pelamar secara interaktif melalui console.
+    /// Username yang diinput harus berbeda dengan username lainnya
+    /// </summary>
+    /// <remarks>
+    /// Proses yang dilakukan:
+    /// 1. Meminta input username yang unik
+    /// 2. Mengumpulkan data pribadi pelamar
+    /// 3. Membuat objek Pelamar baru
+    /// 4. Menyimpan ke database
+    /// 5. Memberikan konfirmasi registrasi
+    /// </remarks>
     public void Execute()
     {
         Console.WriteLine("=== Registrasi Pelamar ===");
