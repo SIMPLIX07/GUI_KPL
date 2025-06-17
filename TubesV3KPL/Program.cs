@@ -35,11 +35,12 @@ class Program
         Console.WriteLine("\nMenerima pelamar...");
         pelamar.Hire();  // Ini akan memberi tahu Admin dan Perusahaan
 
+        static void ExecuteCommand(ICommand cmd) => cmd.Execute();
 
         Dictionary<string, MenuAction> mainMenu = new Dictionary<string, MenuAction>
         {
             { "1", () => RegisterPerusahaan() },
-            { "2", () => RegisterPelamar() },
+            { "2", () => new RegisterPelamarCommand().Execute() },
             { "3", () => AdminMenu(admin) },
             { "4", () => LoginPerusahaan(daftarVerified) },
             { "5", () => LoginPelamar(semuaPelamar, daftarVerified) }
