@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TubesV3
 {
-    /// <summary>
+    
     /// Kelas Pelamar mewakili entitas pencari kerja yang memiliki relasi observer.
-    /// </summary>
+    
     public class Pelamar
     {
         // Daftar observer yang akan diberi notifikasi ketika status pelamar berubah
@@ -23,14 +23,12 @@ namespace TubesV3
         public string skill { get; set; }
         public string pengalaman { get; set; }
 
-        /// <summary>
-        /// Konstruktor default
-        /// </summary>
-        public Pelamar() { }
+        
+        
 
-        /// <summary>
+        
         /// Konstruktor dengan parameter input saat pendaftaran
-        /// </summary>
+       
         public Pelamar(string username, string password, string namaLengkap, string skill, string pengalaman)
         {
             this.username = username;
@@ -42,25 +40,20 @@ namespace TubesV3
             this.state = "Registered"; // default state saat pendaftaran
         }
 
-        /// <summary>
         /// Menambahkan observer ke pelamar
-        /// </summary>
+        
         public void Attach(IObserver observer)
         {
             _observers.Add(observer);
         }
 
-        /// <summary>
         /// Menghapus observer dari pelamar
-        /// </summary>
         public void Detach(IObserver observer)
         {
             _observers.Remove(observer);
         }
 
-        /// <summary>
         /// Memberi notifikasi ke semua observer terkait perubahan state pelamar
-        /// </summary>
         public void Notify()
         {
             foreach (var observer in _observers)
@@ -69,17 +62,13 @@ namespace TubesV3
             }
         }
 
-        /// <summary>
         /// Menampilkan semua lowongan kerja (dari helper class lain)
-        /// </summary>
         public static void getAllLowongan()
         {
             ListLowonganPerusahaan.getAllLowongan();
         }
 
-        /// <summary>
         /// Menandai pelamar sebagai diterima kerja, mengubah state dan mengirim notifikasi ke observer
-        /// </summary>
         public void Hire()
         {
             if (state == "Registered")
@@ -95,17 +84,13 @@ namespace TubesV3
             }
         }
 
-        /// <summary>
         /// Menampilkan state/status pelamar saat ini
-        /// </summary>
         public void PrintStatus()
         {
             Console.WriteLine($"Status {namaLengkap}: {state}");
         }
 
-        /// <summary>
         /// Menolak pelamar, mengubah state menjadi "Rejected"
-        /// </summary>
         public void Reject()
         {
             state = "Rejected";
