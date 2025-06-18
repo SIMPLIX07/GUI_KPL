@@ -20,16 +20,24 @@ namespace TubesV3
         public string state { get; set; }
 
         public LowonganPelamar() { }
+
         public LowonganPelamar(int pelamarId, int perusahaanId, int lowonganId)
         {
+            // Menginisialisasi ID pelamar yang melamar pekerjaan
             PelamarId = pelamarId;
+            // Menginisialisasi ID perusahaan yang membuka lowongan
             PerusahaanId = perusahaanId;
+            // Menginisialisasi ID lowongan yang dilamar oleh pelamar
             LowonganId = lowonganId;
+            // Menetapkan status awal pelamar menjadi "Process" (proses seleksi)
+            // Status ini menandakan bahwa pelamar masih dalam tahap seleksi
             this.state = "Process";
         }
 
+        // Daftar statis untuk mengambil semua LowonganPelamar
         public static List<LowonganPelamar> semuaLowonganPelamar = Database.Context.Lamarans.ToList();
 
+        // Getter untuk informasi entitas
         public string GetPerusahaanTertarik()
         {
             return Perusahaan.namaPerusahaan;
@@ -60,14 +68,18 @@ namespace TubesV3
 
         public void Hire()
         {
+            // Memeriksa apakah status saat ini adalah "Process" (masih dalam proses)
             if (state == "Process")
             {
+                // Mengubah status pelamar menjadi "Hired" (diterima bekerja)
                 state = "Hired";
                 Console.WriteLine("Pelamar diterima bekerja.");
 
+                // Mengakses konteks database
                 var context = Database.Context;
                 context.Lamarans.Attach(this);
                 context.Entry(this).Property(x => x.state).IsModified = true;
+                // Menyimpan perubahan ke dalam database
                 context.SaveChanges();
             }
             else
@@ -75,34 +87,42 @@ namespace TubesV3
                 Console.WriteLine("Pelamar sudah berstatus Hired.");
             }
         }
-
+        
+        //
         public void Reject()
         {
+            // Memeriksa apakah status saat ini adalah "Process" (masih dalam proses)
             if (state == "Process")
             {
+                // Mengubah status pelamar menjadi "Rejected" (ditolak)
                 state = "Rejected";
                 Console.WriteLine("Pelamar ditolak.");
 
                 try
                 {
+                    // Mengakses konteks database
                     var context = Database.Context;
                     context.Lamarans.Attach(this);
                     context.Entry(this).Property(x => x.state).IsModified = true;
+                    // Menyimpan perubahan ke dalam database
                     context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
+                    // Jika terjadi kesalahan saat menyimpan status, tampilkan pesan error
                     Console.WriteLine(" Gagal menyimpan status penolakan.");
+                    // Menampilkan pesan error yang lebih detail jika ada inner exception
                     if (ex.InnerException != null)
                     {
                         Console.WriteLine("Detail error: " + ex.InnerException.Message);
                     }
                     else
                     {
+                        // Menampilkan error utama jika tidak ada inner exception
                         Console.WriteLine("Error: " + ex.Message);
                     }
 
-                    
+                    // Mengembalikan status ke "Process" jika terjadi error
                     state = "Process";
                 }
             }

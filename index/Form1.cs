@@ -28,11 +28,11 @@ namespace index
                     var registerPerusahaanForm = new RegisterPerusahaan();
                     registerPerusahaanForm.ShowDialog();
                     break;
-                //case "3":
-                //    // Buka form Login Pelamar
-                //    var loginPelamarForm = new LoginPelamarForm();
-                //    loginPelamarForm.ShowDialog();
-                //    break;
+                case "3":
+                   // Buka form Login Pelamar
+                   var loginPelamarForm = new LoginPelamar();
+                   loginPelamarForm.ShowDialog();
+                   break;
                 //case "4":
                 //    // Buka form Login Perusahaan
                 //    var loginPerusahaanForm = new LoginPerusahaanForm();
