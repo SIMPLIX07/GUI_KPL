@@ -24,8 +24,8 @@
             textBoxInputUsername = new TextBox(); // Input username
             textBoxInputPassword = new TextBox(); // Input password
             textBoxInputNamaPerusahaan = new TextBox(); // Input nama perusahaan
-            textBoxInputNomorPerusahaan = new TextBox(); // Input nomor perusahaan
-            button1 = new Button(); // Tombol "Daftar"
+            textBoxInputNoPerusahaan = new TextBox(); // Input nomor perusahaan
+            buttonDaftar = new Button(); // Tombol "Daftar"
             SuspendLayout();
             // 
             // labelUsername
@@ -85,30 +85,30 @@
             textBoxInputNamaPerusahaan.Size = new Size(150, 23);
             textBoxInputNamaPerusahaan.TabIndex = 6;
             // 
-            // textBoxInputNomorPerusahaan
+            // textBoxInputNoPerusahaan
             // 
-            textBoxInputNomorPerusahaan.Location = new Point(460, 228);
-            textBoxInputNomorPerusahaan.Name = "textBoxInputNomorPerusahaan";
-            textBoxInputNomorPerusahaan.Size = new Size(150, 23);
-            textBoxInputNomorPerusahaan.TabIndex = 7;
+            textBoxInputNoPerusahaan.Location = new Point(460, 228);
+            textBoxInputNoPerusahaan.Name = "textBoxInputNoPerusahaan";
+            textBoxInputNoPerusahaan.Size = new Size(150, 23);
+            textBoxInputNoPerusahaan.TabIndex = 7;
             // 
-            // button1
+            // buttonDaftar
             // 
-            button1.Location = new Point(350, 280);
-            button1.Name = "button1";
-            button1.Size = new Size(100, 30);
-            button1.TabIndex = 8;
-            button1.Text = "Daftar";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonDaftar.Location = new Point(350, 280);
+            buttonDaftar.Name = "buttonDaftar";
+            buttonDaftar.Size = new Size(100, 30);
+            buttonDaftar.TabIndex = 8;
+            buttonDaftar.Text = "Daftar";
+            buttonDaftar.UseVisualStyleBackColor = true;
+            buttonDaftar.Click += buttonDaftar_Click;
             // 
             // RegisterPerusahaan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
-            Controls.Add(textBoxInputNomorPerusahaan);
+            Controls.Add(buttonDaftar);
+            Controls.Add(textBoxInputNoPerusahaan);
             Controls.Add(textBoxInputNamaPerusahaan);
             Controls.Add(textBoxInputPassword);
             Controls.Add(textBoxInputUsername);
@@ -131,7 +131,7 @@
         private TextBox textBoxInputUsername;
         private TextBox textBoxInputPassword;
         private TextBox textBoxInputNamaPerusahaan;
-        private TextBox textBoxInputNomorPerusahaan;
-        private Button button1;
+        private TextBox textBoxInputNoPerusahaan;
+        private Button buttonDaftar;
     }
 }

@@ -18,12 +18,12 @@ namespace index
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonDaftar_Click(object sender, EventArgs e)
         {
-            string usernamePerusahaan = textBox1.Text;
-            string passwordPerusahaan = textBox2.Text;
-            string namaPerusahaan = textBox3.Text;
-            string nomorPerusahaan = textBox4.Text;
+            string usernamePerusahaan = textBoxInputUsername.Text;
+            string passwordPerusahaan = textBoxInputPassword.Text;
+            string namaPerusahaan = textBoxInputNamaPerusahaan.Text;
+            string nomorPerusahaan = textBoxInputNoPerusahaan.Text;
 
             if (string.IsNullOrWhiteSpace(usernamePerusahaan) || string.IsNullOrWhiteSpace(passwordPerusahaan)
                 || string.IsNullOrWhiteSpace(namaPerusahaan) || string.IsNullOrWhiteSpace(nomorPerusahaan))

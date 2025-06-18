@@ -17,11 +17,11 @@ namespace index
             Database.Init(connectionString);
 
             // Mengambil input dari TextBox
-            string username = textBox1.Text;
-            string password = textBox2.Text;
-            string namaLengkap = textBox3.Text;
-            string skill = textBox4.Text;
-            string pengalaman = textBox5.Text;
+            string username = textBoxInUsername.Text;
+            string password = textBoxInPassword.Text;
+            string namaLengkap = textBoxInNamaPelamar.Text;
+            string skill = textBoxInSkill.Text;
+            string pengalaman = textBoxInPengalaman.Text;
 
             // Validasi input (pastikan tidak ada yang kosong)
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||

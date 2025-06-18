@@ -1,24 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace TubesV3
 {
-    public class Perusahaan: IObserver
+    /// <summary>
+    /// Kelas Perusahaan mengimplementasikan IObserver untuk menerima notifikasi dari Pelamar.
+    /// Menyimpan daftar karyawan dan lowongan, serta melakukan proses perekrutan.
+    /// </summary>
+    public class Perusahaan : IObserver
     {
+        // Properti utama perusahaan
         public int Id { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         public string namaPerusahaan { get; set; }
         public string nomorPerusahaan { get; set; }
         public bool IsVerified { get; set; } = false;
+
+        // Daftar statik untuk menyimpan data karyawan dan lowongan
         public static List<Pelamar> daftarKaryawan { get; set; } = new List<Pelamar>();
         public static List<Lowongan> daftarLowongan { get; set; } = new List<Lowongan>();
 
+        /// <summary>
+        /// Konstruktor default
+        /// </summary>
         public Perusahaan() { }
+
+        /// <summary>
+        /// Konstruktor dengan parameter data perusahaan
+        /// </summary>
         public Perusahaan(string username, string password, string namaPerusahaan, string nomorPerusahaan)
         {
             this.username = username;
@@ -27,15 +39,25 @@ namespace TubesV3
             this.nomorPerusahaan = nomorPerusahaan;
         }
 
+        /// <summary>
+        /// Menambahkan pelamar yang diterima ke daftar karyawan
+        /// </summary>
         public static void addKaryawan(Pelamar karyawan)
         {
             daftarKaryawan.Add(karyawan);
         }
+
+        /// <summary>
+        /// Menambahkan lowongan baru ke daftar lowongan perusahaan
+        /// </summary>
         public static void addLowongan(Lowongan lowongan)
         {
             daftarLowongan.Add(lowongan);
         }
 
+        /// <summary>
+        /// Menampilkan semua karyawan milik perusahaan berdasarkan ID-nya
+        /// </summary>
         public static void getAllKaryawan(Perusahaan perusahaan)
         {
             List<KaryawanPerusahaan> karyawan = Database.Context.KaryawanPerusahaans
@@ -44,13 +66,13 @@ namespace TubesV3
                 .Where(k => k.Perusahaan.Id == perusahaan.Id)
                 .ToList();
 
-            foreach (KaryawanPerusahaan daftarKaryawan in karyawan)
+            foreach (var daftar in karyawan)
             {
-                if (daftarKaryawan.Pelamar != null && daftarKaryawan.Perusahaan != null)
+                if (daftar.Pelamar != null && daftar.Perusahaan != null)
                 {
-                    Console.WriteLine("Nama: " + daftarKaryawan.Pelamar.namaLengkap);
-                    Console.WriteLine("Skill: " + daftarKaryawan.Pelamar.skill);
-                    Console.WriteLine("Pengalaman: " + daftarKaryawan.Pelamar.pengalaman);
+                    Console.WriteLine("Nama: " + daftar.Pelamar.namaLengkap);
+                    Console.WriteLine("Skill: " + daftar.Pelamar.skill);
+                    Console.WriteLine("Pengalaman: " + daftar.Pelamar.pengalaman);
                     Console.WriteLine();
                 }
                 else
@@ -59,17 +81,26 @@ namespace TubesV3
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Implementasi method observer, menerima notifikasi dari pelamar yang statusnya berubah
+        /// </summary>
         public void Update(Pelamar pelamar)
         {
-            Console.WriteLine($"Perusahaan {namaPerusahaan} diberitahu: Pelamar {pelamar.namaLengkap} statusnya telah berubah menjadi {pelamar.state}.");
+            Console.WriteLine($"Perusahaan {namaPerusahaan} diberitahu: Pelamar {pelamar.namaLengkap} statusnya berubah menjadi {pelamar.state}.");
         }
 
-
-        public void accPelamar(Perusahaan perusahaan)
+        /// <summary>
+        /// Method untuk menerima atau menolak pelamar dari admin
+        /// </summary>
+        public void accPelamar(Admin admin)
         {
+            // Ambil semua lamaran untuk perusahaan ini yang masih dalam proses
             List<LowonganPelamar> pelamars = Database.Context.Lamarans
-                .Where(l => l.PerusahaanId == perusahaan.Id)
+                .Include(l => l.Pelamar)
+                .Include(l => l.Lowongan)
+                .Include(l => l.Perusahaan)
+                .Where(l => l.PerusahaanId == this.Id && l.state == "Process")
                 .ToList();
 
             if (pelamars.Count == 0)
@@ -78,8 +109,9 @@ namespace TubesV3
                 return;
             }
 
-            LowonganPelamar showAllPelamar = new LowonganPelamar();
-            showAllPelamar.getAllPelamarByPerusahaanId(pelamars, perusahaan.Id);
+            // Tampilkan seluruh pelamar
+            var listView = new LowonganPelamar();
+            listView.getAllPelamarByPerusahaanId(pelamars, this.Id);
 
             Console.WriteLine("1. Rekrut \n2. Delete \n0. Keluar");
             string input = Console.ReadLine();
@@ -88,27 +120,29 @@ namespace TubesV3
             {
                 switch (input)
                 {
-                    case "1":
-                        Console.WriteLine("Masukan nama pelamar yang ingin direkrut:");
-                        string input2 = Console.ReadLine();
+                    case "1": // Rekrut pelamar
+                        Console.Write("Masukkan nama pelamar yang ingin direkrut: ");
+                        string namaRekrut = Console.ReadLine();
 
                         Pelamar pelamar = Database.Context.Pelamars
-                            .FirstOrDefault(p => p.namaLengkap.ToLower() == input2.ToLower());
+                            .FirstOrDefault(p => p.namaLengkap.ToLower() == namaRekrut.ToLower());
 
                         if (pelamar != null)
                         {
                             var lamaran = Database.Context.Lamarans
-                                .FirstOrDefault(l => l.PelamarId == pelamar.Id && l.PerusahaanId == perusahaan.Id);
+                                .FirstOrDefault(l => l.PelamarId == pelamar.Id && l.PerusahaanId == this.Id);
 
                             if (lamaran != null)
                             {
+                                // Pasang observer dan update status pelamar
+                                pelamar.Attach(admin);
+                                pelamar.Attach(this);
+                                pelamar.Notify();
                                 pelamar.Hire();
-
                                 lamaran.Hire();
 
-                                KaryawanPerusahaan newKaryawan = new KaryawanPerusahaan(pelamar.Id, perusahaan.Id);
-                                pelamar.status = true;
-
+                                // Tambah ke tabel karyawan perusahaan
+                                KaryawanPerusahaan newKaryawan = new KaryawanPerusahaan(pelamar.Id, this.Id);
                                 Database.Context.KaryawanPerusahaans.Add(newKaryawan);
                                 Database.Context.SaveChanges();
 
@@ -125,17 +159,17 @@ namespace TubesV3
                         }
                         break;
 
-                    case "2":
-                        Console.WriteLine("Masukan nama pelamar yang ingin dihapus:");
-                        string input3 = Console.ReadLine();
+                    case "2": // Tolak pelamar
+                        Console.Write("Masukkan nama pelamar yang ingin dihapus: ");
+                        string namaHapus = Console.ReadLine();
 
                         Pelamar pelamarDelete = Database.Context.Pelamars
-                            .FirstOrDefault(p => p.namaLengkap.ToLower() == input3.ToLower());
+                            .FirstOrDefault(p => p.namaLengkap.ToLower() == namaHapus.ToLower());
 
                         if (pelamarDelete != null)
                         {
                             var lamaranToDelete = Database.Context.Lamarans
-                                .FirstOrDefault(l => l.PelamarId == pelamarDelete.Id && l.PerusahaanId == perusahaan.Id);
+                                .FirstOrDefault(l => l.PelamarId == pelamarDelete.Id && l.PerusahaanId == this.Id);
 
                             if (lamaranToDelete != null)
                             {
@@ -156,15 +190,14 @@ namespace TubesV3
                         break;
 
                     default:
-                        Console.WriteLine("Menu tidak ada.");
+                        Console.WriteLine("Menu tidak valid.");
                         break;
                 }
 
+                // Tampilkan ulang menu
                 Console.WriteLine("1. Rekrut \n2. Delete \n0. Keluar");
                 input = Console.ReadLine();
             }
         }
-
-
     }
 }

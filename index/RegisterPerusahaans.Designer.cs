@@ -2,36 +2,36 @@
 {
     partial class RegisterPerusahaans
     {
+        // Komponen UI yang digunakan dalam form
+        private System.ComponentModel.IContainer komponen = null;
+        
         /// <summary>
-        /// Required designer variable.
+        /// Membersihkan resource yang digunakan
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">
+        /// true - membersihkan resource yang dikelola
+        /// false - hanya membersihkan resource tidak dikelola
+        /// </param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (komponen != null))
             {
-                components.Dispose();
+                komponen.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Kode yang di-generate oleh Windows Form Designer
 
         /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
+        /// Method untuk inisialisasi komponen UI
         /// </summary>
-        private void InitializeComponent()
+        private void InisialisasiKomponen()
         {
-            this.components = new System.ComponentModel.Container();
+            this.komponen = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "RegisterPerusahaans";
+            this.Text = "Form Pendaftaran Perusahaan";
         }
 
         #endregion
