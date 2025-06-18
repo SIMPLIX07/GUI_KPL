@@ -4,25 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System;
-
 namespace TubesV3
 {
-    /// <summary> Kontrak untuk semua perintah. </summary>
-    // Interface dengan tanggung jawab tunggal
+    /// <summary>
+    /// Blueprint dasar untuk semua command/perintah
+    /// </summary>
     public interface ICommand
     {
+        /// <summary>
+        /// Menjalankan aksi utama dari command
+        /// </summary>
         void Execute();
     }
 
     /// <summary>
-    /// Membungkus Action menjadi perintah yang bisa dieksekusi.
+    /// Command sederhana yang membungkus Action
     /// </summary>
-    /// Mengubah Action menjadi implementasi command pattern
     public class LambdaCommand : ICommand
     {
         private readonly Action _action;
+
+        /// <summary>
+        /// Membuat command dari Action
+        /// </summary>
         public LambdaCommand(Action action) => _action = action;
+
+        /// <summary>
+        /// Menjalankan action yang sudah disimpan
+        /// </summary>
         public void Execute() => _action();
     }
 }

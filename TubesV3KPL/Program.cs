@@ -6,7 +6,10 @@ using TubesV3;
 
 class Program
 {
+    // Delegate untuk aksi menu
     delegate void MenuAction();
+
+    static Admin admin = new Admin("admin", "admin123");
 
     static void Main(string[] args)
     {
@@ -16,10 +19,10 @@ class Program
         var semuaLowongan = Database.Context.Lowongans.ToList();
         var semuaPelamar = new DaftarSemuaPelamar();
         var daftarVerified = new DaftarPerusahaanVerified();
-        var admin = new Admin("admin", "admin123");
 
         SimulasikanNotifikasiPelamar(admin);
 
+        // Mapping menu utama ke aksi
         var menuActions = new Dictionary<string, MenuAction>
         {
             { "1", RegisterPerusahaan },
@@ -29,6 +32,7 @@ class Program
             { "5", () => LoginFactory.CreateLogin("pelamar", semuaPelamar, daftarVerified).Login() }
         };
 
+        // Menu utama
         string input;
         do
         {
@@ -42,9 +46,9 @@ class Program
                 continue;
             }
 
-            if (menuActions.ContainsKey(input))
+            if (menuActions.TryGetValue(input, out var action))
             {
-                menuActions[input]();
+                action();
             }
             else if (input != "0")
             {
@@ -55,6 +59,8 @@ class Program
 
         Console.WriteLine("Terima kasih telah menggunakan sistem rekrutmen!");
     }
+
+    #region === Setup Awal ===
 
     static void InitDatabase()
     {
@@ -69,6 +75,9 @@ class Program
         ConfigLowongan.InitializeDefaultLowongan();
     }
 
+    /// <summary>
+    /// Simulasi notifikasi observer saat pelamar diterima kerja
+    /// </summary>
     static void SimulasikanNotifikasiPelamar(Admin admin)
     {
         var perusahaan = new Perusahaan("company1", "password", "TechCorp", "123456789");
@@ -81,16 +90,11 @@ class Program
         pelamar.Hire();
     }
 
-    
-    /// <summary>
-    /// Mengeksekusi command dengan memanggil method Execute() pada objek ICommand.
-    /// </summary>
+    #endregion
+
+    #region === Utilitas ===
 
     static void ExecuteCommand(ICommand cmd) => cmd.Execute();
-
-    /// <summary>
-    /// Dictionary yang memetakan pilihan menu ke action yang sesuai.
-    /// </summary>
 
     public static string GetNonEmptyInput(string prompt)
     {
@@ -110,8 +114,9 @@ class Program
         return Regex.IsMatch(username, @"^[a-zA-Z0-9]{4,}$");
     }
 
+    #endregion
 
-    #region === Menu Register/Login ===
+    #region === Menu Registrasi/Login ===
 
     static void RegisterPerusahaan()
     {
@@ -142,78 +147,6 @@ class Program
         Console.WriteLine("Perusahaan berhasil didaftarkan.\n");
     }
 
-    static void RegisterPelamar()
-    {
-        string username;
-        do
-        {
-            username = GetNonEmptyInput("Masukkan Username: ");
-             if (!IsValidUsername(username))
-            {
-                Console.WriteLine("Username hanya boleh huruf/angka dan minimal 4 karakter.");
-                username = null;
-            }
-            else if (Database.Context.Pelamars.Any(p => p.username == username))
-            {
-                Console.WriteLine("Username sudah digunakan.");
-                username = null;
-            }
-        } while (string.IsNullOrWhiteSpace(username));
-
-        var password = GetNonEmptyInput("Masukkan Password: ");
-        var nama = GetNonEmptyInput("Masukkan Nama Lengkap: ");
-        var skill = GetNonEmptyInput("Masukkan Skill: ");
-        var pengalaman = GetNonEmptyInput("Masukkan Pengalaman: ");
-
-        var pelamar = new Pelamar(username, password, nama, skill, pengalaman);
-        Database.Context.Pelamars.Add(pelamar);
-        Database.Context.SaveChanges();
-
-        Console.WriteLine("Pelamar berhasil didaftarkan.\n");
-    }
-
-    #endregion
-
-    #region === Menu Perusahaan ===
-
-    public static void PerusahaanMenu(Perusahaan perusahaan)
-    {
-        var menu = new Dictionary<string, MenuAction>
-        {
-            { "1", () => PostLowongan(perusahaan) },
-            { "2", () => perusahaan.accPelamar(perusahaan) },
-            { "3", () => Perusahaan.getAllKaryawan(perusahaan) }
-        };
-
-        string pilihan;
-        do
-        {
-            Menu.menuPerusahaan();
-            pilihan = GetNonEmptyInput("Pilih: ");
-
-            if (menu.ContainsKey(pilihan))
-                menu[pilihan]();
-            else if (pilihan != "0")
-                Console.WriteLine("Pilihan tidak tersedia.");
-
-        } while (pilihan != "0");
-    }
-
-    static void PostLowongan(Perusahaan perusahaan)
-    {
-        var judul = GetNonEmptyInput("Posisi: ");
-        var kriteria = GetNonEmptyInput("Kriteria: ");
-        var deskripsi = GetNonEmptyInput("Deskripsi: ");
-        var lokasi = GetNonEmptyInput("Lokasi: ");
-        var gaji = GetNonEmptyInput("Gaji: ");
-
-        var lowongan = new Lowongan(perusahaan.namaPerusahaan, judul, kriteria, deskripsi, lokasi, gaji);
-        Database.Context.Lowongans.Add(lowongan);
-        Database.Context.SaveChanges();
-
-        Console.WriteLine("Lowongan berhasil diposting!\n");
-    }
-
     #endregion
 
     #region === Menu Pelamar ===
@@ -236,8 +169,8 @@ class Program
             Menu.menuPelamar();
             pilihan = GetNonEmptyInput("Pilih: ");
 
-            if (menu.ContainsKey(pilihan))
-                menu[pilihan]();
+            if (menu.TryGetValue(pilihan, out var action))
+                action();
             else if (pilihan != "0")
                 Console.WriteLine("Pilihan tidak tersedia.");
 
@@ -279,6 +212,48 @@ class Program
 
     #endregion
 
+    #region === Menu Perusahaan ===
+
+    public static void PerusahaanMenu(Perusahaan perusahaan)
+    {
+        var menu = new Dictionary<string, MenuAction>
+        {
+            { "1", () => PostLowongan(perusahaan) },
+            { "2", () => perusahaan.accPelamar(admin) },
+            { "3", () => Perusahaan.getAllKaryawan(perusahaan) }
+        };
+
+        string pilihan;
+        do
+        {
+            Menu.menuPerusahaan();
+            pilihan = GetNonEmptyInput("Pilih: ");
+
+            if (menu.TryGetValue(pilihan, out var action))
+                action();
+            else if (pilihan != "0")
+                Console.WriteLine("Pilihan tidak tersedia.");
+
+        } while (pilihan != "0");
+    }
+
+    static void PostLowongan(Perusahaan perusahaan)
+    {
+        var judul = GetNonEmptyInput("Posisi: ");
+        var kriteria = GetNonEmptyInput("Kriteria: ");
+        var deskripsi = GetNonEmptyInput("Deskripsi: ");
+        var lokasi = GetNonEmptyInput("Lokasi: ");
+        var gaji = GetNonEmptyInput("Gaji: ");
+
+        var lowongan = new Lowongan(perusahaan.namaPerusahaan, judul, kriteria, deskripsi, lokasi, gaji);
+        Database.Context.Lowongans.Add(lowongan);
+        Database.Context.SaveChanges();
+
+        Console.WriteLine("Lowongan berhasil diposting!\n");
+    }
+
+    #endregion
+
     #region === Menu Admin ===
 
     static void AdminMenu(Admin admin)
@@ -294,8 +269,8 @@ class Program
             Menu.menuAdmin();
             pilihan = GetNonEmptyInput("Pilih: ");
 
-            if (menu.ContainsKey(pilihan))
-                menu[pilihan]();
+            if (menu.TryGetValue(pilihan, out var action))
+                action();
             else if (pilihan != "0")
                 Console.WriteLine("Pilihan tidak tersedia.");
 

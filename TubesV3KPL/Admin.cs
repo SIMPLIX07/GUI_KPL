@@ -69,7 +69,7 @@ namespace TubesV3
             }
             Database.Context.SaveChanges();
         }
-        // Implementation of Update method from IObserver
+        // implementasi observer
         public void Update(Pelamar pelamar)
         {
             Console.WriteLine($"Admin diberitahu: Pelamar {pelamar.namaLengkap} statusnya telah berubah menjadi {pelamar.state}.");
