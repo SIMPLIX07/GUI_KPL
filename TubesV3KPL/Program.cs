@@ -24,7 +24,6 @@ class Program
         DaftarPerusahaanVerified daftarVerified = new DaftarPerusahaanVerified();
         Perusahaan perusahaan = new Perusahaan("company1", "password", "TechCorp", "123456789");
 
-        // Membuat objek pelamar (subject)
         Pelamar pelamar = new Pelamar("johndoe", "password123", "John Doe", "C#", "3 years");
 
         // Menambahkan Admin dan Perusahaan sebagai observer ke Pelamar
@@ -39,25 +38,12 @@ class Program
         /// <summary>
         /// Mengeksekusi command dengan memanggil method Execute() pada objek ICommand.
         /// </summary>
-        /// <param name="cmd">Objek command yang mengimplementasikan ICommand</param>
-        /// <remarks>
-        /// Menggunakan expression-bodied member untuk kode yang singkat dan jelas.
-        /// </remarks>
+
         static void ExecuteCommand(ICommand cmd) => cmd.Execute();
 
         /// <summary>
         /// Dictionary yang memetakan pilihan menu ke action yang sesuai.
         /// </summary>
-        /// <remarks>
-        /// Struktur data ini digunakan untuk:
-        /// 1. Memisahkan konfigurasi menu dari logika navigasi
-        /// 2. Memudahkan penambahan/pengurangan menu
-        /// 3. Menyediakan mapping yang jelas antara input user dan action
-        /// 
-        /// Setiap entry terdiri dari:
-        /// - Key: string representasi pilihan menu (1-5)
-        /// - Value: delegate MenuAction yang akan dieksekusi
-        /// </remarks>
 
         Dictionary<string, MenuAction> mainMenu = new Dictionary<string, MenuAction>
         {

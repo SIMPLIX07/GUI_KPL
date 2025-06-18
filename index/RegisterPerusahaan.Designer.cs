@@ -17,80 +17,80 @@
 
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
-            label4 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
-            textBox4 = new TextBox();
-            button1 = new Button();
+            labelUsername = new Label(); // Label "Masukkan Username"
+            labelPassword = new Label(); // Label "Masukkan Password"
+            labelNamaPerusahaan = new Label(); // Label "Masukkan Nama Perusahaan"
+            labelNomorPerusahaan = new Label(); // Label "Masukkan Nomor Perusahaan"
+            textBoxInputUsername = new TextBox(); // Input username
+            textBoxInputPassword = new TextBox(); // Input password
+            textBoxInputNamaPerusahaan = new TextBox(); // Input nama perusahaan
+            textBoxInputNomorPerusahaan = new TextBox(); // Input nomor perusahaan
+            button1 = new Button(); // Tombol "Daftar"
             SuspendLayout();
             // 
-            // label1
+            // labelUsername
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(270, 141);
-            label1.Name = "label1";
-            label1.Size = new Size(117, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Masukkan Username";
+            labelUsername.AutoSize = true;
+            labelUsername.Location = new Point(270, 141);
+            labelUsername.Name = "labelUsername";
+            labelUsername.Size = new Size(117, 15);
+            labelUsername.TabIndex = 0;
+            labelUsername.Text = "Masukkan Username";
             // 
-            // label2
+            // labelPassword
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(270, 169);
-            label2.Name = "label2";
-            label2.Size = new Size(114, 15);
-            label2.TabIndex = 1;
-            label2.Text = "Masukkan Password";
+            labelPassword.AutoSize = true;
+            labelPassword.Location = new Point(270, 169);
+            labelPassword.Name = "labelPassword";
+            labelPassword.Size = new Size(114, 15);
+            labelPassword.TabIndex = 1;
+            labelPassword.Text = "Masukkan Password";
             // 
-            // label3
+            // labelNamaPerusahaan
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(270, 198);
-            label3.Name = "label3";
-            label3.Size = new Size(160, 15);
-            label3.TabIndex = 2;
-            label3.Text = "Masukkan Nama Perusahaan";
+            labelNamaPerusahaan.AutoSize = true;
+            labelNamaPerusahaan.Location = new Point(270, 198);
+            labelNamaPerusahaan.Name = "labelNamaPerusahaan";
+            labelNamaPerusahaan.Size = new Size(160, 15);
+            labelNamaPerusahaan.TabIndex = 2;
+            labelNamaPerusahaan.Text = "Masukkan Nama Perusahaan";
             // 
-            // label4
+            // labelNomorPerusahaan
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(270, 225);
-            label4.Name = "label4";
-            label4.Size = new Size(166, 15);
-            label4.TabIndex = 3;
-            label4.Text = "Masukkan Nomor Perusahaan";
+            labelNomorPerusahaan.AutoSize = true;
+            labelNomorPerusahaan.Location = new Point(270, 225);
+            labelNomorPerusahaan.Name = "labelNomorPerusahaan";
+            labelNomorPerusahaan.Size = new Size(166, 15);
+            labelNomorPerusahaan.TabIndex = 3;
+            labelNomorPerusahaan.Text = "Masukkan Nomor Perusahaan";
             // 
-            // textBox1
+            // textBoxInputUsername
             // 
-            textBox1.Location = new Point(460, 141);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 23);
-            textBox1.TabIndex = 4;
+            textBoxInputUsername.Location = new Point(460, 141);
+            textBoxInputUsername.Name = "textBoxInputUsername";
+            textBoxInputUsername.Size = new Size(150, 23);
+            textBoxInputUsername.TabIndex = 4;
             // 
-            // textBox2
+            // textBoxInputPassword
             // 
-            textBox2.Location = new Point(460, 170);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(150, 23);
-            textBox2.TabIndex = 5;
+            textBoxInputPassword.Location = new Point(460, 170);
+            textBoxInputPassword.Name = "textBoxInputPassword";
+            textBoxInputPassword.Size = new Size(150, 23);
+            textBoxInputPassword.TabIndex = 5;
             // 
-            // textBox3
+            // textBoxInputNamaPerusahaan
             // 
-            textBox3.Location = new Point(460, 199);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(150, 23);
-            textBox3.TabIndex = 6;
+            textBoxInputNamaPerusahaan.Location = new Point(460, 199);
+            textBoxInputNamaPerusahaan.Name = "textBoxInputNamaPerusahaan";
+            textBoxInputNamaPerusahaan.Size = new Size(150, 23);
+            textBoxInputNamaPerusahaan.TabIndex = 6;
             // 
-            // textBox4
+            // textBoxInputNomorPerusahaan
             // 
-            textBox4.Location = new Point(460, 228);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(150, 23);
-            textBox4.TabIndex = 7;
+            textBoxInputNomorPerusahaan.Location = new Point(460, 228);
+            textBoxInputNomorPerusahaan.Name = "textBoxInputNomorPerusahaan";
+            textBoxInputNomorPerusahaan.Size = new Size(150, 23);
+            textBoxInputNomorPerusahaan.TabIndex = 7;
             // 
             // button1
             // 
@@ -108,14 +108,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(button1);
-            Controls.Add(textBox4);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(textBoxInputNomorPerusahaan);
+            Controls.Add(textBoxInputNamaPerusahaan);
+            Controls.Add(textBoxInputPassword);
+            Controls.Add(textBoxInputUsername);
+            Controls.Add(labelNomorPerusahaan);
+            Controls.Add(labelNamaPerusahaan);
+            Controls.Add(labelPassword);
+            Controls.Add(labelUsername);
             Name = "RegisterPerusahaan";
             Text = "Register Perusahaan";
             ResumeLayout(false);
@@ -124,14 +124,14 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
-        private Label label4;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
-        private TextBox textBox4;
+        private Label labelUsername;
+        private Label labelPassword;
+        private Label labelNamaPerusahaan;
+        private Label labelNomorPerusahaan;
+        private TextBox textBoxInputUsername;
+        private TextBox textBoxInputPassword;
+        private TextBox textBoxInputNamaPerusahaan;
+        private TextBox textBoxInputNomorPerusahaan;
         private Button button1;
     }
 }
