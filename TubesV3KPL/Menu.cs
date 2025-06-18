@@ -20,16 +20,19 @@ namespace TubesV3
         }
         public static void menuAdmin()
         {
+            Console.WriteLine("\n==== MENU ADMIN ====");
             Console.WriteLine("1. Verifikasi Perusahaan \n0. Keluar");
         }
 
         public static void menuPerusahaan()
         {
+            Console.WriteLine("\n==== MENU PERUSAHAAN ====");
             Console.WriteLine("1. Upload Lowongan \n2. Lihat Pelamar Pada Lowongan \n3. Lihat Karyawan \n0. Keluar");
         }
 
         public static void menuPelamar()
         {
+            Console.WriteLine("\n==== MENU PELAMAR ====");
             Console.WriteLine("1. Lihat Lowongan \n2. Ajukan Lowongan \n3. Lowongan Yang di Ajukan  \n0. Keluar");
         }
     }

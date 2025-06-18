@@ -74,6 +74,7 @@ namespace TubesV3
         {
             Console.WriteLine($"Admin diberitahu: Pelamar {pelamar.namaLengkap} statusnya telah berubah menjadi {pelamar.state}.");
         }
+        
 
     }
 }

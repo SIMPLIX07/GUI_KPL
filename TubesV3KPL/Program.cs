@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Text.RegularExpressions;
 using TubesV3;
 
 class Program
@@ -9,92 +10,89 @@ class Program
 
     static void Main(string[] args)
     {
-        string connectionString = "server=localhost;port=3306;database=pencari_kerja;user=root;password=";
-        Database.Init(connectionString);
+        InitDatabase();
+        SeedInitialData();
 
-        // Menerapkan Pemanggilan Api
-        ConfigPerusahaan.InitializeDefaultPerusahaan();
-        ConfigPelamar.InitializeDefaultPelamars();
-        ConfigLowongan.InitializeDefaultLowongan();
+        var semuaLowongan = Database.Context.Lowongans.ToList();
+        var semuaPelamar = new DaftarSemuaPelamar();
+        var daftarVerified = new DaftarPerusahaanVerified();
+        var admin = new Admin("admin", "admin123");
 
-        List<Lowongan> semuaLowongan = Database.Context.Lowongans.ToList();
-        Admin admin = new Admin("admin", "admin123");
-        QueuePerusahaan queue = new QueuePerusahaan();
-        DaftarSemuaPelamar semuaPelamar = new DaftarSemuaPelamar();
-        DaftarPerusahaanVerified daftarVerified = new DaftarPerusahaanVerified();
-        Perusahaan perusahaan = new Perusahaan("company1", "password", "TechCorp", "123456789");
+        SimulasikanNotifikasiPelamar(admin);
 
-        // Membuat objek pelamar (subject)
-        Pelamar pelamar = new Pelamar("johndoe", "password123", "John Doe", "C#", "3 years");
-
-        // Menambahkan Admin dan Perusahaan sebagai observer ke Pelamar
-        pelamar.Attach(admin);  // Menambahkan Admin sebagai observer
-        pelamar.Attach(perusahaan);  // Menambahkan Perusahaan sebagai observer
-
-        // Mengubah status pelamar menjadi "Hired"
-        Console.WriteLine("\nMenerima pelamar...");
-        pelamar.Hire();  // Ini akan memberi tahu Admin dan Perusahaan
-
-
-        /// <summary>
-        /// Mengeksekusi command dengan memanggil method Execute() pada objek ICommand.
-        /// </summary>
-        /// <param name="cmd">Objek command yang mengimplementasikan ICommand</param>
-        /// <remarks>
-        /// Menggunakan expression-bodied member untuk kode yang singkat dan jelas.
-        /// </remarks>
-        static void ExecuteCommand(ICommand cmd) => cmd.Execute();
-
-        /// <summary>
-        /// Dictionary yang memetakan pilihan menu ke action yang sesuai.
-        /// </summary>
-        /// <remarks>
-        /// Struktur data ini digunakan untuk:
-        /// 1. Memisahkan konfigurasi menu dari logika navigasi
-        /// 2. Memudahkan penambahan/pengurangan menu
-        /// 3. Menyediakan mapping yang jelas antara input user dan action
-        /// 
-        /// Setiap entry terdiri dari:
-        /// - Key: string representasi pilihan menu (1-5)
-        /// - Value: delegate MenuAction yang akan dieksekusi
-        /// </remarks>
-
-        Dictionary<string, MenuAction> mainMenu = new Dictionary<string, MenuAction>
+        var menuActions = new Dictionary<string, MenuAction>
         {
-            { "1", () => RegisterPerusahaan() },
-            { "2", () => ExecuteCommand(new RegisterPelamarCommand()) }, 
+            { "1", RegisterPerusahaan },
+            { "2", () => ExecuteCommand(new RegisterPelamarCommand()) },
             { "3", () => AdminMenu(admin) },
-            { "4", () => LoginPerusahaan(daftarVerified) },
-            { "5", () => LoginPelamar(semuaPelamar, daftarVerified) }
+            { "4", () => LoginFactory.CreateLogin("perusahaan", semuaPelamar, daftarVerified).Login() },
+            { "5", () => LoginFactory.CreateLogin("pelamar", semuaPelamar, daftarVerified).Login() }
         };
 
-        string pilihan = "";
-        while (pilihan != "0")
+        string input;
+        do
         {
             Menu.menuLogin();
             Console.Write("Pilih menu: ");
-            pilihan = Console.ReadLine();
+            input = Console.ReadLine()?.Trim();
 
-            if (string.IsNullOrWhiteSpace(pilihan))
+            if (string.IsNullOrWhiteSpace(input))
             {
                 Console.WriteLine("Input tidak boleh kosong!");
                 continue;
             }
 
-            if (mainMenu.ContainsKey(pilihan))
+            if (menuActions.ContainsKey(input))
             {
-                mainMenu[pilihan]();
+                menuActions[input]();
             }
-            else if (pilihan != "0")
+            else if (input != "0")
             {
-                Console.WriteLine("Menu tidak ada");
+                Console.WriteLine("Menu tidak tersedia.");
             }
-        }
+
+        } while (input != "0");
 
         Console.WriteLine("Terima kasih telah menggunakan sistem rekrutmen!");
     }
 
-    static string GetNonEmptyInput(string prompt)
+    static void InitDatabase()
+    {
+        string connection = "server=localhost;port=3306;database=pencari_kerja;user=root;password=";
+        Database.Init(connection);
+    }
+
+    static void SeedInitialData()
+    {
+        ConfigPerusahaan.InitializeDefaultPerusahaan();
+        ConfigPelamar.InitializeDefaultPelamars();
+        ConfigLowongan.InitializeDefaultLowongan();
+    }
+
+    static void SimulasikanNotifikasiPelamar(Admin admin)
+    {
+        var perusahaan = new Perusahaan("company1", "password", "TechCorp", "123456789");
+        var pelamar = new Pelamar("johndoe", "password123", "John Doe", "C#", "3 years");
+
+        pelamar.Attach(admin);
+        pelamar.Attach(perusahaan);
+
+        Console.WriteLine("\nMenerima pelamar...");
+        pelamar.Hire();
+    }
+
+    
+    /// <summary>
+    /// Mengeksekusi command dengan memanggil method Execute() pada objek ICommand.
+    /// </summary>
+
+    static void ExecuteCommand(ICommand cmd) => cmd.Execute();
+
+    /// <summary>
+    /// Dictionary yang memetakan pilihan menu ke action yang sesuai.
+    /// </summary>
+
+    public static string GetNonEmptyInput(string prompt)
     {
         string input;
         do
@@ -102,249 +100,207 @@ class Program
             Console.Write(prompt);
             input = Console.ReadLine()?.Trim();
             if (string.IsNullOrWhiteSpace(input))
-            {
                 Console.WriteLine("Input tidak boleh kosong!");
-            }
         } while (string.IsNullOrWhiteSpace(input));
-
         return input;
     }
 
+    static bool IsValidUsername(string username)
+    {
+        return Regex.IsMatch(username, @"^[a-zA-Z0-9]{4,}$");
+    }
+
+
+    #region === Menu Register/Login ===
+
     static void RegisterPerusahaan()
     {
-        string usernamePerusahaan;
-        bool usernameExists;
-        do
-        {
-            usernamePerusahaan = GetNonEmptyInput("Masukkan Username: ");
-            usernameExists = Database.Context.Perusahaans.Any(pr => pr.username == usernamePerusahaan);
-
-            if (usernameExists)
-            {
-                Console.WriteLine("Username sudah digunakan. Silakan coba username lain.");
-            }
-        }
-        while (usernameExists);
-
-        string passwordPerusahaan = GetNonEmptyInput("Masukkan Password: ");
-        string namaPerusahaan = GetNonEmptyInput("Masukkan Nama Perusahaan: ");
-        string nomorPerusahaan = GetNonEmptyInput("Masukkan Nomor Perusahaan: ");
-
-        Perusahaan newPerusahaan = new Perusahaan(usernamePerusahaan, passwordPerusahaan, namaPerusahaan, nomorPerusahaan);
-        Database.Context.Perusahaans.Add(newPerusahaan);
-        Database.Context.SaveChanges();
-        Console.WriteLine("Perusahaan berhasil didaftarkan.\n");
-    }
-
-    static void LoginPerusahaan(DaftarPerusahaanVerified daftarVerified)
-    {
-        string username = GetNonEmptyInput("Username: ");
-        string password = GetNonEmptyInput("Password: ");
-
-        daftarVerified.initializeDataPerusahaanVerified(Database.Context.Perusahaans.ToList());
-
-        if (daftarVerified.cekPerusahaan(username, password))
-        {
-            Perusahaan perusahaanLogin = daftarVerified.verifPerusahaan(username, password);
-            PerusahaanMenu(perusahaanLogin);
-        }
-        else
-        {
-            Console.WriteLine("Perusahaan tidak terdaftar Atau Perusahaan tidak Verified\n");
-        }
-    }
-
-    static void PerusahaanMenu(Perusahaan perusahaan)
-    {
-        Dictionary<string, MenuAction> perusahaanMenu = new Dictionary<string, MenuAction>
-        {
-            { "1", () => PostLowongan(perusahaan) },
-            { "2", () => ReviewPelamar(perusahaan) },
-            { "3", () => LihatKaryawan(perusahaan) }
-        };
-
-        string pilihan = "";
-        while (pilihan != "0")
-        {
-            Menu.menuPerusahaan();
-            pilihan = GetNonEmptyInput("Pilih: ");
-
-            if (perusahaanMenu.ContainsKey(pilihan))
-            {
-                perusahaanMenu[pilihan]();
-            }
-            else if (pilihan != "0")
-            {
-                Console.WriteLine("Pilihan tidak ada");
-            }
-        }
-    }
-
-    static void PostLowongan(Perusahaan perusahaan)
-    {
-        string judul = GetNonEmptyInput("Posisi: ");
-        string kriteria = GetNonEmptyInput("Kriteria: ");
-        string deskripsi = GetNonEmptyInput("Deskripsi: ");
-        string lokasi = GetNonEmptyInput("Lokasi: ");
-        string gaji = GetNonEmptyInput("Gaji: ");
-
-        Lowongan lowongan = new Lowongan(perusahaan.namaPerusahaan, judul, kriteria, deskripsi, lokasi, gaji);
-        Database.Context.Lowongans.Add(lowongan);
-        Database.Context.SaveChanges();
-        Console.WriteLine("Lowongan berhasil diposting!\n");
-    }
-
-    static void ReviewPelamar(Perusahaan perusahaan)
-    {
-        Console.WriteLine("Review pelamar untuk perusahaan: " + perusahaan.namaPerusahaan);
-        perusahaan.accPelamar(perusahaan);
-    }
-
-    static void LihatKaryawan(Perusahaan perusahaan)
-    {
-        Perusahaan.getAllKaryawan(perusahaan);
-    }
-
-    static void RegisterPelamar()
-    {
-        bool usernameExists;
         string username;
         do
         {
             username = GetNonEmptyInput("Masukkan Username: ");
-            usernameExists = Database.Context.Pelamars.Any(p => p.username == username);
-            if (usernameExists)
+            if (!IsValidUsername(username))
             {
-                Console.WriteLine("Username sudah digunakan. Silakan coba username lain.");
+                Console.WriteLine("Username hanya boleh huruf/angka dan minimal 4 karakter.");
+                username = null;
             }
-        }
-        while (usernameExists);
+            else if (Database.Context.Perusahaans.Any(p => p.username == username))
+            {
+                Console.WriteLine("Username sudah digunakan.");
+                username = null;
+            }
+        } while (string.IsNullOrWhiteSpace(username));
 
-        string password = GetNonEmptyInput("Masukkan Password: ");
-        string namaLengkap = GetNonEmptyInput("Masukkan Nama Lengkap: ");
-        string skill = GetNonEmptyInput("Masukkan Skill: ");
-        string pengalaman = GetNonEmptyInput("Masukkan Pengalaman: ");
+        var password = GetNonEmptyInput("Masukkan Password: ");
+        var nama = GetNonEmptyInput("Masukkan Nama Perusahaan: ");
+        var nomor = GetNonEmptyInput("Masukkan Nomor Perusahaan: ");
 
-        Pelamar pelamar = new Pelamar(username, password, namaLengkap, skill, pengalaman);
-        if (pelamar != null)
-        {
-            Database.Context.Pelamars.Add(pelamar);
-            Database.Context.SaveChanges();
-            Console.WriteLine("Pelamar berhasil didaftarkan.\n");
-        }
-        else
-        {
-            Console.WriteLine("Pelamar Gagal didaftarkan.\n");
-        }
+        var perusahaan = new Perusahaan(username, password, nama, nomor);
+        Database.Context.Perusahaans.Add(perusahaan);
+        Database.Context.SaveChanges();
+
+        Console.WriteLine("Perusahaan berhasil didaftarkan.\n");
     }
 
-    static void LoginPelamar(DaftarSemuaPelamar semuaPelamar, DaftarPerusahaanVerified daftar)
+    static void RegisterPelamar()
     {
-        string username = GetNonEmptyInput("Username: ");
-        string password = GetNonEmptyInput("Password: ");
+        string username;
+        do
+        {
+            username = GetNonEmptyInput("Masukkan Username: ");
+             if (!IsValidUsername(username))
+            {
+                Console.WriteLine("Username hanya boleh huruf/angka dan minimal 4 karakter.");
+                username = null;
+            }
+            else if (Database.Context.Pelamars.Any(p => p.username == username))
+            {
+                Console.WriteLine("Username sudah digunakan.");
+                username = null;
+            }
+        } while (string.IsNullOrWhiteSpace(username));
 
-        if (semuaPelamar.verfikasiPelamar(username, password))
-        {
-            Pelamar pelamar = semuaPelamar.cariPelamar(username, password);
-            PelamarMenu(pelamar, daftar);
-        }
-        else
-        {
-            Console.WriteLine("Pelamar tidak terdaftar\n");
-        }
+        var password = GetNonEmptyInput("Masukkan Password: ");
+        var nama = GetNonEmptyInput("Masukkan Nama Lengkap: ");
+        var skill = GetNonEmptyInput("Masukkan Skill: ");
+        var pengalaman = GetNonEmptyInput("Masukkan Pengalaman: ");
+
+        var pelamar = new Pelamar(username, password, nama, skill, pengalaman);
+        Database.Context.Pelamars.Add(pelamar);
+        Database.Context.SaveChanges();
+
+        Console.WriteLine("Pelamar berhasil didaftarkan.\n");
     }
 
-    static void PelamarMenu(Pelamar pelamar, DaftarPerusahaanVerified daftar)
+    #endregion
+
+    #region === Menu Perusahaan ===
+
+    public static void PerusahaanMenu(Perusahaan perusahaan)
     {
-        List<Lowongan> lowongan = Database.Context.Lowongans.ToList();
+        var menu = new Dictionary<string, MenuAction>
+        {
+            { "1", () => PostLowongan(perusahaan) },
+            { "2", () => perusahaan.accPelamar(perusahaan) },
+            { "3", () => Perusahaan.getAllKaryawan(perusahaan) }
+        };
+
+        string pilihan;
+        do
+        {
+            Menu.menuPerusahaan();
+            pilihan = GetNonEmptyInput("Pilih: ");
+
+            if (menu.ContainsKey(pilihan))
+                menu[pilihan]();
+            else if (pilihan != "0")
+                Console.WriteLine("Pilihan tidak tersedia.");
+
+        } while (pilihan != "0");
+    }
+
+    static void PostLowongan(Perusahaan perusahaan)
+    {
+        var judul = GetNonEmptyInput("Posisi: ");
+        var kriteria = GetNonEmptyInput("Kriteria: ");
+        var deskripsi = GetNonEmptyInput("Deskripsi: ");
+        var lokasi = GetNonEmptyInput("Lokasi: ");
+        var gaji = GetNonEmptyInput("Gaji: ");
+
+        var lowongan = new Lowongan(perusahaan.namaPerusahaan, judul, kriteria, deskripsi, lokasi, gaji);
+        Database.Context.Lowongans.Add(lowongan);
+        Database.Context.SaveChanges();
+
+        Console.WriteLine("Lowongan berhasil diposting!\n");
+    }
+
+    #endregion
+
+    #region === Menu Pelamar ===
+
+    public static void PelamarMenu(Pelamar pelamar, DaftarPerusahaanVerified daftar)
+    {
+        var lowongan = Database.Context.Lowongans.ToList();
         daftar.initializeDataPerusahaanVerified(Database.Context.Perusahaans.ToList());
 
-        Dictionary<string, MenuAction> pelamarMenu = new Dictionary<string, MenuAction>
+        var menu = new Dictionary<string, MenuAction>
         {
             { "1", () => LihatLowongan(lowongan) },
             { "2", () => LamarLowongan(pelamar, daftar, lowongan) },
-            { "3", () => LowonganDiajukan(pelamar) }
+            { "3", () => LowonganPelamar.getLowonganPelamarById(pelamar.Id) }
         };
 
-        string pilihan = "";
-        while (pilihan != "0")
+        string pilihan;
+        do
         {
             Menu.menuPelamar();
             pilihan = GetNonEmptyInput("Pilih: ");
 
-            if (pelamarMenu.ContainsKey(pilihan))
-            {
-                pelamarMenu[pilihan]();
-            }
+            if (menu.ContainsKey(pilihan))
+                menu[pilihan]();
             else if (pilihan != "0")
-            {
-                Console.WriteLine("Pilihan tidak ada");
-            }
-        }
+                Console.WriteLine("Pilihan tidak tersedia.");
+
+        } while (pilihan != "0");
     }
 
-    static void LihatLowongan(List<Lowongan> lowongan)
+    static void LihatLowongan(List<Lowongan> daftar)
     {
-        Lowongan lowongans = new Lowongan();
-        lowongans.getAllLowongan(lowongan);
+        new Lowongan().getAllLowongan(daftar);
     }
 
     static void LamarLowongan(Pelamar pelamar, DaftarPerusahaanVerified daftar, List<Lowongan> lowongan)
     {
-        Lowongan lowongans = new Lowongan();
-        lowongans.getAllLowongan(lowongan);
+        new Lowongan().getAllLowongan(lowongan);
 
-        string perusahaan = GetNonEmptyInput("Nama Perusahaan: ");
-        string posisi = GetNonEmptyInput("Posisi: ");
+        var perusahaanNama = GetNonEmptyInput("Nama Perusahaan: ");
+        var posisi = GetNonEmptyInput("Posisi: ");
 
-        Lowongan lowonganDipilih = lowongans.getLowonganByPosisi(posisi, lowongan);
+        var lowonganDipilih = new Lowongan().getLowonganByPosisi(posisi, lowongan);
         if (lowonganDipilih == null)
         {
-            Console.WriteLine("Lowongan tidak ditemukan. Pastikan posisi benar.\n");
+            Console.WriteLine("Lowongan tidak ditemukan.");
             return;
         }
 
-        Perusahaan perusahaanId = daftar.cekIdPerusahaan(perusahaan);
-        if (perusahaanId == null)
+        var perusahaan = daftar.cekIdPerusahaan(perusahaanNama);
+        if (perusahaan == null)
         {
-            Console.WriteLine("Perusahaan tidak terverifikasi atau tidak ditemukan.\n");
+            Console.WriteLine("Perusahaan tidak terverifikasi.");
             return;
         }
 
-        LowonganPelamar lp = new LowonganPelamar(pelamar.Id, perusahaanId.Id, lowonganDipilih.Id);
+        var lp = new LowonganPelamar(pelamar.Id, perusahaan.Id, lowonganDipilih.Id);
         Database.Context.Lamarans.Add(lp);
         Database.Context.SaveChanges();
 
         Console.WriteLine("Lamaran berhasil diajukan!\n");
     }
 
-    static void LowonganDiajukan(Pelamar pelamar)
-    {
-        LowonganPelamar.getLowonganPelamarById(pelamar.Id);
-    }
+    #endregion
+
+    #region === Menu Admin ===
 
     static void AdminMenu(Admin admin)
     {
-        List<Perusahaan> daftarVerified = Database.Context.Perusahaans.ToList();
-        Dictionary<string, MenuAction> adminMenu = new Dictionary<string, MenuAction>
+        var menu = new Dictionary<string, MenuAction>
         {
-            { "1", () => admin.Verifikasi(daftarVerified) }
+            { "1", () => admin.Verifikasi(Database.Context.Perusahaans.ToList()) }
         };
 
-        string pilihan = "";
-        while (pilihan != "0")
+        string pilihan;
+        do
         {
             Menu.menuAdmin();
             pilihan = GetNonEmptyInput("Pilih: ");
 
-            if (adminMenu.ContainsKey(pilihan))
-            {
-                adminMenu[pilihan]();
-            }
+            if (menu.ContainsKey(pilihan))
+                menu[pilihan]();
             else if (pilihan != "0")
-            {
-                Console.WriteLine("Pilihan tidak ada");
-            }
-        }
+                Console.WriteLine("Pilihan tidak tersedia.");
+
+        } while (pilihan != "0");
     }
+
+    #endregion
 }
