@@ -16,37 +16,42 @@ namespace index
         {
             string pilihan = textBox1.Text;
 
-            switch (pilihan)
+            try
             {
-                case "1":
-                    // Buka form Register Pelamar
-                    var registerPelamarForm = new RegisterPelamar();
-                    registerPelamarForm.ShowDialog();
-                    break;
-                case "2":
-                    // Buka form Register Perusahaan
-                    var registerPerusahaanForm = new RegisterPerusahaan();
-                    registerPerusahaanForm.ShowDialog();
-                    break;
-                //case "3":
-                //    // Buka form Login Pelamar
-                //    var loginPelamarForm = new LoginPelamarForm();
-                //    loginPelamarForm.ShowDialog();
-                //    break;
-                //case "4":
-                //    // Buka form Login Perusahaan
-                //    var loginPerusahaanForm = new LoginPerusahaanForm();
-                //    loginPerusahaanForm.ShowDialog();
-                //    break;
-                //case "5":
-                //    // Buka form Login Admin
-                //    var adminLoginForm = new AdminLoginForm();
-                //    adminLoginForm.ShowDialog();
-                //    break;
-                default:
-                    MessageBox.Show("Pilihan tidak valid. Masukkan angka antara 1 hingga 5.");
-                    break;
+                switch (pilihan)
+                {
+                    case "1":
+                        // Buka form Register Pelamar
+                        var registerPelamarForm = new RegisterPelamar();
+                        registerPelamarForm.ShowDialog();
+                        break;
+                    case "2":
+                        // Buka form Register Perusahaan
+                        var registerPerusahaanForm = new RegisterPerusahaan();
+                        registerPerusahaanForm.ShowDialog();
+                        break;
+                    //case "3":
+                    //    var loginPelamarForm = new LoginPelamarForm();
+                    //    loginPelamarForm.ShowDialog();
+                    //    break;
+                    //case "4":
+                    //    var loginPerusahaanForm = new LoginPerusahaanForm();
+                    //    loginPerusahaanForm.ShowDialog();
+                    //    break;
+                    //case "5":
+                    //    var adminLoginForm = new AdminLoginForm();
+                    //    adminLoginForm.ShowDialog();
+                    //    break;
+                    default:
+                        MessageBox.Show("Pilihan tidak valid. Masukkan angka antara 1 hingga 5.");
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
