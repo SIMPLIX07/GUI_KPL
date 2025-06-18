@@ -6,7 +6,7 @@ using TubesV3;
 class Program
 {
     delegate void MenuAction();
-
+    static Admin admin = new Admin("admin", "admin123");
     static void Main(string[] args)
     {
         string connectionString = "server=localhost;port=3306;database=pencari_kerja;user=root;password=";
@@ -16,9 +16,7 @@ class Program
         ConfigPerusahaan.InitializeDefaultPerusahaan();
         ConfigPelamar.InitializeDefaultPelamars();
         ConfigLowongan.InitializeDefaultLowongan();
-
         List<Lowongan> semuaLowongan = Database.Context.Lowongans.ToList();
-        Admin admin = new Admin("admin", "admin123");
         QueuePerusahaan queue = new QueuePerusahaan();
         DaftarSemuaPelamar semuaPelamar = new DaftarSemuaPelamar();
         DaftarPerusahaanVerified daftarVerified = new DaftarPerusahaanVerified();
@@ -174,7 +172,7 @@ class Program
     static void ReviewPelamar(Perusahaan perusahaan)
     {
         Console.WriteLine("Review pelamar untuk perusahaan: " + perusahaan.namaPerusahaan);
-        perusahaan.accPelamar(perusahaan);
+        perusahaan.accPelamar(perusahaan, admin);
     }
 
     static void LihatKaryawan(Perusahaan perusahaan)
@@ -223,6 +221,7 @@ class Program
         if (semuaPelamar.verfikasiPelamar(username, password))
         {
             Pelamar pelamar = semuaPelamar.cariPelamar(username, password);
+            pelamar.Attach(admin);  // Menambahkan Admin sebagai observer
             PelamarMenu(pelamar, daftar);
         }
         else

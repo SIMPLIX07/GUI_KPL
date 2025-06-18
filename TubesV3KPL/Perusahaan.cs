@@ -66,7 +66,7 @@ namespace TubesV3
         }
 
 
-        public void accPelamar(Perusahaan perusahaan)
+        public void accPelamar(Perusahaan perusahaan, Admin admin)
         {
             List<LowonganPelamar> pelamars = Database.Context.Lamarans
                 .Where(l => l.PerusahaanId == perusahaan.Id)
@@ -102,6 +102,9 @@ namespace TubesV3
 
                             if (lamaran != null)
                             {
+                                pelamar.Attach(admin); // Attach admin sebagai observer
+                                pelamar.Attach(perusahaan);
+                                pelamar.Notify();
                                 pelamar.Hire();
 
                                 lamaran.Hire();
