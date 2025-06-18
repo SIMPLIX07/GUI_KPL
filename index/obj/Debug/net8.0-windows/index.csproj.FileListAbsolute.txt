@@ -39,3 +39,45 @@ C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\ind
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\index.genruntimeconfig.cache
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\ref\index.dll
 C:\Telkom\Semester 4\Konstruksi\Tubes\TubesV4\index\obj\Debug\net8.0-windows\index.sourcelink.json
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\TubesV3.deps.json
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\TubesV3.runtimeconfig.json
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\TubesV3.exe
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\index.exe
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\index.deps.json
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\index.runtimeconfig.json
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\index.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\index.pdb
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\MySqlConnector.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\TubesV3.dll
+C:\Users\luthf\GUI_KPL\index\bin\Debug\net8.0-windows\TubesV3.pdb
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.csproj.AssemblyReference.cache
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.Form1.resources
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.RegisterPelamar.resources
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.RegisterPerusahaan.resources
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.csproj.GenerateResource.cache
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.AssemblyInfoInputs.cache
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.AssemblyInfo.cs
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.csproj.CoreCompileInputs.cache
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.sourcelink.json
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.csproj.Up2Date
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.dll
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\refint\index.dll
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.pdb
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.genruntimeconfig.cache
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\ref\index.dll
+C:\Users\luthf\GUI_KPL\index\obj\Debug\net8.0-windows\index.LoginPelamar.resources

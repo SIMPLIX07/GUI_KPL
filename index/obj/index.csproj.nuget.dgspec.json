@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\index\\index.csproj": {}
+    "C:\\Users\\luthf\\GUI_KPL\\index\\index.csproj": {}
   },
   "projects": {
-    "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\index\\index.csproj": {
+    "C:\\Users\\luthf\\GUI_KPL\\index\\index.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\index\\index.csproj",
+        "projectUniqueName": "C:\\Users\\luthf\\GUI_KPL\\index\\index.csproj",
         "projectName": "index",
-        "projectPath": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\index\\index.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\index\\obj\\",
+        "projectPath": "C:\\Users\\luthf\\GUI_KPL\\index\\index.csproj",
+        "packagesPath": "C:\\Users\\luthf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\luthf\\GUI_KPL\\index\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luthf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\TubesV3.csproj": {
-                "projectPath": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\TubesV3.csproj"
+              "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\TubesV3.csproj": {
+                "projectPath": "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\TubesV3.csproj"
               }
             }
           }
@@ -64,6 +65,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -76,20 +95,20 @@
         }
       }
     },
-    "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\TubesV3.csproj": {
+    "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\TubesV3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\TubesV3.csproj",
+        "projectUniqueName": "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\TubesV3.csproj",
         "projectName": "TubesV3",
-        "projectPath": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\TubesV3.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Telkom\\Semester 4\\Konstruksi\\Tubes\\TubesV4\\TubesV3KPL\\obj\\",
+        "projectPath": "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\TubesV3.csproj",
+        "packagesPath": "C:\\Users\\luthf\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\luthf\\GUI_KPL\\TubesV3KPL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luthf\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -98,6 +117,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -156,6 +176,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.16, 8.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
